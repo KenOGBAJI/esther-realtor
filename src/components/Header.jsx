@@ -1,5 +1,5 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header() {
 
@@ -41,7 +41,7 @@ export default function Header() {
             > 
               Sign in
             </li>
-
+              
           </ul>
         </div>
       </header>
