@@ -24,7 +24,7 @@ export default function Header() {
     }
   }
   return (
-    <div className='bg-white border-b shadow-sm sticky top-0 z-50'>
+    <div className='bg-white border-b shadow-sm sticky top-0 z-40'>
       <header className='flex justify-between items-center px-3 max-w-xl mx-auto'>
         <div>
           <img src='https://img.freepik.com/premium-vector/real-estate-logo_74869-159.jpg' alt='Logo' className='h-12 cursor-pointer'
