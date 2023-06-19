@@ -10,12 +10,11 @@ export default function Profile() {
   const navigate = useNavigate();
   const [changeDetail, setChangeDetail] = useState(false);
   const [loading, setLoading] = useState(true);
-
-
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
   });
+
   const {name, email} = formData;
   function onLogout() {
     auth.signOut();
@@ -24,20 +23,20 @@ export default function Profile() {
 
   function onChange(e) {
    setFormData((prevState) => ({
+    ...prevState,
     [e.target.id]: e.target.value,
    }));
   }
 
-  async function onsubmit() {
+  async function onSubmit() {
     try {
       if (auth.currentUser.displayName !== name) {
 
         // update display name in firebase with
-
         await updateProfile(auth.currentUser, {
           displayName: name,
         });
-
+        
         // update name in the firestore
         const docRef = doc(db, "users", auth.currentUser.uid);
         await updateDoc(docRef, {
@@ -82,7 +81,7 @@ export default function Profile() {
               <p className='flex items-center'>Do you want to change your name?
                <span
               onClick={() => {
-                changeDetail && onsubmit();
+                changeDetail && onSubmit();
                 setChangeDetail((prevState) => !prevState);
               }}
                 
