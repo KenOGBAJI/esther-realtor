@@ -7,12 +7,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { EffectFade, Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css/bundle";
 import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
+import { getAuth } from "firebase/auth";
+import Contact from '../components/Contact';
 
 export default function Listing() {
+  const auth = getAuth();
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false)
+  const [contactRealtor, setContactRealtor] = useState(false)
   SwiperCore.use([Autoplay, Navigation, Pagination]);
 
   useEffect(() => {
@@ -52,7 +56,7 @@ export default function Listing() {
           </SwiperSlide>
           ))}
       </Swiper>
-       <div className="fixed top-[13%] right-[3%] z-10 bg-white cursor-pointer border-2 border-gray- rounded-full w-12 h-12 flex justify-center items-center" 
+      <div className="fixed top-[13%] right-[3%] z-10 bg-white cursor-pointer border-2 border-gray- rounded-full w-12 h-12 flex justify-center items-center" 
         onClick={() =>{
         navigator.clipboard.writeText(window.location.href)
         setShareLinkCopied(true)
@@ -69,7 +73,7 @@ export default function Listing() {
         </p>
         )}
        <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5">
-        <div className="bg-pink-300 w-full h-[200px] lg-[400px]">
+        <div className="bg-pink-300 w-full">
           <p className='text-2xl font-bold text-blue-900 mb-4 ml-4'>
             {listing.name} - ₦{" "} {listing.offer ? listing.discountedPrice.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",") : listing.regularPrice.toString()
@@ -90,7 +94,7 @@ export default function Listing() {
             <span className='font-semibold'>Description - </span>
             {listing.description}
           </p>
-          <ul className="flex items-center space-x-2 lg:space-x-10 text-sm font-semibold">
+          <ul className="flex items-center space-x-2 lg:space-x-10 text-sm font-semibold mb-6">
             <li className='flex items-center whitespace-nowrap'>
               <FaBed className='text-lg mr-1' />
               {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}
@@ -108,6 +112,19 @@ export default function Listing() {
               {listing.furnished ? "Furnished" : "Not furnished"}
             </li>
           </ul>
+          {listing.userRef !== auth.currentUser?.uid && !contactRealtor && (
+          <div className="mt-6">
+          <button
+              onClick={() => (
+                setContactRealtor(true)
+              )} 
+              className='py-7 px-7 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition duration-150 ease-in-out'>Contact The Realtor
+          </button>
+          </div>
+          )};
+            {contactRealtor && (
+              <Contact userRef={listing.userRef} listing={listing}/>
+            )}
         </div>
         <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden"></div>
        </div>
