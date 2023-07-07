@@ -73,7 +73,7 @@ export default function Listing() {
         </p>
         )}
        <div className="m-4 flex flex-col md:flex-row max-w-6xl lg:mx-auto p-4 rounded-lg shadow-lg bg-white lg:space-x-5">
-        <div className="bg-pink-300 w-full">
+        <div className="w-full">
           <p className='text-2xl font-bold text-blue-900 mb-4 ml-4'>
             {listing.name} - ₦{" "} {listing.offer ? listing.discountedPrice.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",") : listing.regularPrice.toString()
@@ -87,7 +87,9 @@ export default function Listing() {
           <div className="flex justify-start items-center space-x-4 w-[75%]">
             <p className='bg-red-800 w-full max-w-[200px rounded-md p-1 text-white text-center font-semibold shadow-md]'>{listing.type === "rent" ? "For Rent" : "For Sale"}</p>
             {listing.offer && (
-              <p className='w-full max-w-[200px] bg-green-800 rounded-md text-white p-1 text-center font-semibold shadow md'>{+listing.regularPrice - +listing.discountedPrice} discount</p>
+              <p className='w-full max-w-[200px] bg-green-800 rounded-md text-white p-1 text-center font-semibold shadow md'>{+listing.regularPrice - +listing.discountedPrice} 
+               discount
+              </p>
             )}
           </div>
           <p className='mt-3 mb-3'> 
@@ -113,21 +115,18 @@ export default function Listing() {
             </li>
           </ul>
           {listing.userRef !== auth.currentUser?.uid && !contactRealtor && (
-          <div className="mt-6">
-          <button
-              onClick={() => (
-                setContactRealtor(true)
-              )} 
-              className='py-7 px-7 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition duration-150 ease-in-out'>Contact The Realtor
+
+          <div className='mt-6'>
+          <button onClick={()=> setContactRealtor(true)} className='px-7 py3 bg-blue-600 text-white font-medium text-sm uppercase shadow-md rounded hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full text-center transition duration-150 ease-in-out'>Contact Realtor
           </button>
           </div>
-          )};
-            {contactRealtor && (
-              <Contact userRef={listing.userRef} listing={listing}/>
-            )}
+          )}
+          {contactRealtor && <Contact userRef={listing.userRef} listing={listing} />}
         </div>
-        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden"></div>
-       </div>
+        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden">
+
+        </div>
+      </div>
     </main>
   );
 }
