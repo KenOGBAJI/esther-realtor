@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const [geoLocationEnabled, setGeoLocationEnabled] = useState(false);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
@@ -71,14 +71,14 @@ export default function CreateListing() {
       return;
     }
 //---------- FUNCTION TO CONTROL GEOLOCATION GOOGLE MAP API------------
-    let geoLocation = {}
+    let geolocation = {}
     let location
-    if(geoLocationEnabled) {
+    if(geolocationEnabled) {
       const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`);
       const data = await response.json()
       console.log(data);
-      geoLocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-      geoLocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
       location = data.status === "ZERO_RESULTS" && undefined;
 
@@ -88,8 +88,8 @@ export default function CreateListing() {
         return;
       }
     } else {
-      geoLocation.latitude = latitude;
-      geoLocation.longitude = longitude;
+      geolocation.latitude = latitude;
+      geolocation.longitude = longitude;
     }
 // -----------------function to control uploading of images dynamically---------------
     async function storeImage(image) {
@@ -140,7 +140,7 @@ export default function CreateListing() {
       const formDataCopy = {
         ...formData,
         imgUrls,
-        geoLocation,
+        geolocation,
         timestamp: serverTimestamp(),
         userRef: auth.currentUser.uid,
       };
@@ -276,7 +276,7 @@ export default function CreateListing() {
           required 
           className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-        {!geoLocationEnabled && (
+        {!geolocationEnabled && (
           <div className="flex space-x-6 justify-start mb-6">
             <div className="">
               <p className="text-lg font-semibold">Latitude</p>

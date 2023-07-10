@@ -9,6 +9,7 @@ import "swiper/css/bundle";
 import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import Contact from '../components/Contact';
+// import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 export default function Listing() {
   const auth = getAuth();
@@ -123,9 +124,10 @@ export default function Listing() {
           )}
           {contactRealtor && <Contact userRef={listing.userRef} listing={listing} />}
         </div>
-        <div className="bg-blue-300 w-full h-[200px] lg-[400px] z-10 overflow-x-hidden">
-
-        </div>
+            {/* {MapContainer to be worked on later} */}
+        {/* <div className="w-full h-[200px] md:h-[400px] z-10 overflow-x-hidden mt-6 md:mt-0 md:ml-2">
+          
+        </div> */}
       </div>
     </main>
   );
